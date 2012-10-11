@@ -1326,7 +1326,6 @@ Strophe.Handler.prototype = {
 
             nsMatch = nsMatch || elem.getAttribute("xmlns") == this.ns;
         }
-
         if (nsMatch &&
             (!this.name || Strophe.isTagEqual(elem, this.name)) &&
             (!this.type || elem.getAttribute("type") == this.type) &&
@@ -2015,6 +2014,7 @@ Strophe.Connection.prototype = {
             elem = elem.tree();
         }
 	var id = elem.getAttribute('id');
+    var to = elem.getAttribute('to');
 
 	// inject id if not found
 	if (!id) {
@@ -2022,7 +2022,7 @@ Strophe.Connection.prototype = {
 	    elem.setAttribute("id", id);
 	}
 
-	var handler = this.addHandler(function (stanza) {
+    var handler = this.addHandler(function (stanza) {
 	    // remove timeout handler if there is one
             if (timeoutHandler) {
                 that.deleteTimedHandler(timeoutHandler);
@@ -2043,7 +2043,7 @@ Strophe.Connection.prototype = {
                     message: "Got bad IQ type of " + iqtype
                 };
             }
-	}, null, 'iq', null, id);
+	}, null, 'iq', null, id, to);
 
 	// if timeout specified, setup timeout handler.
 	if (timeout) {
