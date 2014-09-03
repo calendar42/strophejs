@@ -2317,8 +2317,13 @@ Strophe.Connection.prototype = {
     _restartRequest: function (i)
     {
         var req = this._requests[i];
-        if (req.dead === null) {
-            req.dead = new Date();
+
+        if (typeof(req) === "object") {
+            if (req.dead === null) {
+                req.dead = new Date();
+            }
+        } else {
+            Strophe.warn("******C42 Fix******* Request i does not exist, not adding dead time");
         }
 
         this._processRequest(i);
